@@ -1,0 +1,6 @@
+.streamlit/
+data/
+__pycache__/
+.vscode/
+*.pyc
+*.tmp
