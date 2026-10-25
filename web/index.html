@@ -1,1 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080a17">
+  <meta name="description" content="Ysoriel — your personal life, in a clearer orbit.">
+  <title>Ysoriel — Command Centre</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="cosmos" aria-hidden="true"><canvas id="stars"></canvas><div class="milky-way"></div><div class="nebula nebula-one"></div><div class="nebula nebula-two"></div></div>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#overview" aria-label="Ysoriel home"><span class="brand-mark"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 3.5 23.8 15l11.7 4-11.7 3.8L20 34.5l-3.8-11.7L4.5 19l11.7-4L20 3.5Z"/><circle cx="30.5" cy="9.5" r="2"/></svg></span><span><strong>ysoriel</strong><small>PERSONAL OS</small></span></a>
+      <div class="workspace-label">YOUR SPACE</div>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a class="nav-link active" href="#overview" data-view="overview"><span class="nav-icon">⌂</span><span>Overview</span></a>
+        <a class="nav-link" href="#missions" data-view="missions"><span class="nav-icon">✧</span><span>Missions</span><span class="nav-count" id="navMissions" hidden>0</span></a>
+        <a class="nav-link" href="#calendar" data-view="calendar"><span class="nav-icon">▦</span><span>Calendar</span></a>
+        <a class="nav-link" href="#memory" data-view="memory"><span class="nav-icon">◉</span><span>My memory</span></a>
+      </nav>
+      <div class="nav-divider"></div>
+      <div class="workspace-label agents-heading">YOUR CREW <button class="tiny-action" id="agentsInfo" aria-label="Show or hide the full crew">···</button></div>
+      <div class="agent-list" id="agentList"></div>
+      <button class="all-agents" id="crewButton">View all agents <span>→</span></button>
+      <div class="sidebar-bottom">
+        <div class="privacy-note"><span class="privacy-icon">◈</span><span><strong>Your space, your rules</strong><small>Memory is always in your control.</small></span></div>
+        <button class="profile-button" id="profileButton"><span class="profile-avatar" id="profileAvatar">Y</span><span class="profile-copy"><strong id="profileName">You</strong><small>Personal workspace</small></span><span class="profile-menu">⌄</span></button>
+      </div>
+    </aside>
 
+    <main class="main-content" id="overview">
+      <header class="topbar"><button class="mobile-menu" id="menuToggle" aria-label="Toggle menu">☰</button><div class="breadcrumb"><span>My space</span><span class="crumb-slash">/</span><strong>Overview</strong></div><div class="top-actions"><span class="local-badge"><i></i> LOCAL</span><button class="icon-button" id="helpButton" aria-label="Help">?</button><button class="icon-button notification-button" id="notificationsButton" aria-label="Notifications">♧<i id="notifDot" hidden></i></button><span class="top-avatar" id="topAvatar">Y</span></div></header>
+
+      <section class="welcome-row"><div><div class="eyebrow"><span class="eyebrow-star">✦</span> <span id="eyebrowDate"></span></div><h1>Your orbit, <em>in balance.</em></h1><p class="welcome-subtitle">A little clarity for everything on your mind.</p></div><button class="date-pill" id="dateButton"><span>◷</span> <span id="datePill" style="font-size:inherit;margin:0;color:inherit"></span> <b>⌄</b></button></section>
+
+      <section class="hero-card" aria-label="Ask Ysoriel"><div class="hero-glow"></div><div class="hero-copy"><div class="hero-icon">✧</div><div><h2><span id="greeting" style="font-size:inherit;color:inherit">Hello</span> <span>✦</span></h2><p>The universe is looking manageable. What’s on your mind?</p></div></div><form id="commandForm" class="command-box"><span class="command-spark">✦</span><label class="sr-only" for="commandInput">Ask Ysoriel anything</label><input id="commandInput" autocomplete="off" placeholder="Ask Ysoriel anything…"><button class="voice-button" type="button" id="voiceButton" aria-label="Voice input">◖</button><button class="send-button" type="submit" id="sendButton" aria-label="Send command">↑</button></form><div class="suggestions"><span>TRY</span><button data-prompt="Plan my day: check my calendar and reminders and suggest a calm, focused schedule">Plan a focused day <span>↗</span></button><button data-prompt="What needs my attention this week? Check deadlines, conflicts and spending.">What needs my attention? <span>↗</span></button><button data-prompt="Help me compare travel options for a 3-day weekend trip within a sensible budget">Explore a trip <span>↗</span></button></div><div id="commandFeedback" class="command-feedback" aria-live="polite"></div></section>
+
+      <section class="panel response-panel" id="responsePanel" aria-live="polite" hidden></section>
+
+      <section class="section-heading"><div><div class="eyebrow muted-eyebrow">A GLANCE AT YOUR DAY</div><h2>Today, in a nutshell</h2></div><button class="text-link" data-view="calendar">View schedule <span>→</span></button></section>
+      <section class="metrics-grid" aria-label="Today's overview">
+        <article class="metric-card"><div class="metric-top"><span class="metric-icon lavender">▦</span><span class="metric-label">ON YOUR CALENDAR</span></div><div class="metric-value" id="mEvents">– <small>events</small></div><div class="metric-foot"><span class="metric-indicator ind-violet"></span><span id="mEventsFoot">&nbsp;</span></div><div class="mini-sparkline violet-line"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></article>
+        <article class="metric-card"><div class="metric-top"><span class="metric-icon mint">✓</span><span class="metric-label">REMINDERS</span></div><div class="metric-value" id="mRem">– <small>open</small></div><div class="metric-foot"><span class="metric-indicator ind-mint"></span><span id="mRemFoot">&nbsp;</span></div><div class="progress-track"><span id="mRemBar" style="width:0%"></span></div></article>
+        <article class="metric-card"><div class="metric-top"><span class="metric-icon peach">◈</span><span class="metric-label">AWAITING YOUR OK</span></div><div class="metric-value" id="mAppr">– <small>approvals</small></div><div class="metric-foot"><span class="metric-indicator ind-peach"></span><span id="mApprFoot">&nbsp;</span></div><button class="card-cta" data-scroll="approvals">Review requests <span>→</span></button></article>
+        <article class="metric-card"><div class="metric-top"><span class="metric-icon sky">✧</span><span class="metric-label">YOUR CREW</span></div><div class="metric-value" id="mCrew">– <small>agents ready</small></div><div class="metric-foot"><span class="metric-indicator ind-sky"></span><span id="mCrewFoot">&nbsp;</span></div><div class="avatar-stack"><span>✧</span><span>◷</span><span>⌁</span><span>+9</span></div></article>
+      </section>
+
+      <section class="dashboard-grid">
+        <div class="panel mission-panel" id="missions"><div class="panel-heading"><div><div class="eyebrow muted-eyebrow">IN FLIGHT</div><h2>Mission control <span class="live-pulse"></span></h2></div></div><div class="mission-list" id="missionList"></div><button class="panel-footer-link" id="allMissions">See all missions <span>→</span></button></div>
+
+        <div class="panel agenda-panel" id="calendar"><div class="panel-heading"><div><div class="eyebrow muted-eyebrow">DAY BY DAY</div><h2>Your schedule</h2></div></div><div class="agenda-list" id="agendaList"></div><button class="panel-footer-link" id="togglePast">Show past days</button></div>
+
+        <div class="panel approvals-panel" id="approvals"><div class="panel-heading"><div><div class="eyebrow muted-eyebrow">NEEDS YOUR SAY</div><h2>Ready for your review <span class="approval-count" id="approvalCount">0</span></h2></div></div><div class="approval-list" id="approvalList"></div><div class="approval-note"><span>◈</span> Nothing gets booked or sent without your approval.</div></div>
+
+        <div class="panel activity-panel"><div class="panel-heading"><div><div class="eyebrow muted-eyebrow">THE LITTLE THINGS, HANDLED</div><h2>Recent activity</h2></div></div><div class="activity-list" id="activityList"></div><div class="panel-pad"></div></div>
+
+        <div class="panel money-panel" id="money"><div class="panel-heading"><div><div class="eyebrow muted-eyebrow">THIS MONTH</div><h2>Money</h2></div></div><div id="moneyBody"></div><div class="panel-pad"></div></div>
+
+        <div class="panel reminders-panel" id="reminders"><div class="panel-heading"><div><div class="eyebrow muted-eyebrow">DEADLINES</div><h2>Reminders</h2></div></div><div class="activity-list" id="reminderList"></div><div class="panel-pad"></div></div>
+      </section>
+      <footer class="footer"><span><i class="footer-star">✦</i> Small steps, wide horizons.</span><span>Ysoriel <b>·</b> Personal Life OS <b>·</b> Bookings, purchases and messages are simulated</span></footer>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <dialog id="reviewDialog" class="review-dialog"><form method="dialog"><button class="dialog-close" aria-label="Close">×</button></form><div class="dialog-mark">✧</div><div class="eyebrow muted-eyebrow" id="dialogEyebrow">YOUR APPROVAL</div><h2 id="dialogTitle">Review request</h2><div id="dialogBody" class="dialog-body"></div><p class="dialog-footnote">Bookings, purchases and messages are simulated: approving logs the action, nothing is sent to a real service.</p><div class="dialog-actions"><button class="button-secondary" id="dismissApproval">Not now</button><button class="button-danger" id="rejectAction">Reject</button><button class="button-primary" id="approveAction">Approve</button></div></dialog>
+
+  <dialog id="infoDialog" class="review-dialog wide"><form method="dialog"><button class="dialog-close" aria-label="Close">×</button></form><div class="dialog-mark" id="infoMark">✧</div><div class="eyebrow muted-eyebrow" id="infoEyebrow"></div><h2 id="infoTitle"></h2><div id="infoBody" class="dialog-body scroll"></div></dialog>
+</body>
+</html>
